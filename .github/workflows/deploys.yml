@@ -45,10 +45,9 @@ jobs:
             # Descargar la nueva versión de la interfaz
             docker pull ${{ secrets.DOCKER_USERNAME }}/innovatech-frontend:latest
             
-            # Levantar el Frontend en el puerto 80 u otro asignado (ej: 5000 para Flask)
-            # Pasamos la IP del Backend como Variable de Entorno usando el secreto de AWS
+            # Levantar el Frontend exponiendo el puerto 80 hacia el mundo exterior
             docker run -d --name innovatech-web \
               -p 80:5000 \
-              -e BACKEND_URL=http://${{ secrets.EC2_HOST_BACK }}:3000 \
+              -e BACKEND_URL=${{ secrets.BACKEND_URL }} \
               --restart always \
               ${{ secrets.DOCKER_USERNAME }}/innovatech-frontend:latest
